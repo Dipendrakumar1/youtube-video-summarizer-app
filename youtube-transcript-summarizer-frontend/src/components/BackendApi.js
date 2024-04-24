@@ -1,9 +1,7 @@
-import braille from 'braille';
 import React, { Component } from 'react';
 import Tabs from './Tabs';
 import ET from '../transcripts/English.txt';
 import HT from '../transcripts/Hindi.txt';
-import GT from '../transcripts/Gujarati.txt';
 
 class BackendAPI extends Component {
 	constructor(props) {
@@ -17,10 +15,8 @@ class BackendAPI extends Component {
 			message: '',
 			englishTranscript: '',
 			hindiTranscript: '',
-			gujaratiTranscript: '',
 			originalTextLength: 0,
 			summarizedTextLength: 0,
-			brailleText: '',
 		};
 	}
 
@@ -36,7 +32,7 @@ class BackendAPI extends Component {
 			isLoaded: false,
 		});
 
-		const FinalURL = `http://104.154.58.83/api/?video_url=${encodeURIComponent(this.state.name)}`;
+		const FinalURL = `http://127.0.0.1:5000/api/?video_url=${encodeURIComponent(this.state.name)}`;
 
 		fetch(FinalURL)
 			.then((res) => res.json())
@@ -49,10 +45,8 @@ class BackendAPI extends Component {
 							message: result.data.message,
 							englishTranscript: result.data.eng_summary,
 							hindiTranscript: result.data.hind_summary,
-							gujaratiTranscript: result.data.guj_summary,
 							originalTextLength: result.data.original_txt_length,
 							summarizedTextLength: result.data.final_summ_length,
-							brailleText: braille.toBraille(result.data.eng_summary)
 						});
 					} else {
 						this.setState({
@@ -93,8 +87,6 @@ class BackendAPI extends Component {
 			message,
 			englishTranscript,
 			hindiTranscript,
-			gujaratiTranscript,
-			brailleText,
 			originalTextLength,
 			summarizedTextLength,
 			failedMessage,
@@ -110,7 +102,7 @@ class BackendAPI extends Component {
 								className="input-1"
 								type="url"
 								value={this.state.name}
-								placeholder="Paste your YouTube Video link here."
+								placeholder="Paste your YouTube Video link here"
 								name="name"
 								onChange={this.handleChange}
 								required
@@ -136,16 +128,7 @@ class BackendAPI extends Component {
 								Hindi Summarized Text Will be Shown Here...
 							</div>
 						</div>
-						<div label="Gujarati">
-							<div className="tab-content-1">
-								Gujarati Summarized Text Will be Shown Here...
-							</div>
-						</div>
-						<div label="Braille">
-							<div className="tab-content-1">
-								{braille.toBraille("Braille Summarized Text Will be Shown Here...")}
-							</div>
-						</div>
+			
 					</Tabs>
 				</>
 			);
@@ -222,47 +205,13 @@ class BackendAPI extends Component {
 										{hindiTranscript}
 									</div>
 								</div>
-								<div label="Gujarati">
-									<div className="tab-content">
-										<div>
-											<center>
-												<a
-													href={GT}
-													className="buttonDownload"
-													download="Gujarati_Transcript.txt"
-													type="button"
-												>
-													Download
-												</a>
-											</center>
-										</div>
-										{gujaratiTranscript}
-									</div>
-								</div>
-								<div label="Braille">
-									<div className="tab-content">
-										<div>
-											<center>
-												<a
-													href={ET}
-													className="buttonDownload"
-													download="Braille_Transcript.txt"
-													type="button"
-												>
-													Download
-												</a>
-											</center>
-										</div>
-										{brailleText}
-									</div>
-								</div>
 							</Tabs>
 						</>
 					) : (
 						<>
 							<div>
 								<br />
-								An Error occurred: {failedMessage}.
+								An Error occurred: {failedMessage}
 							</div>
 							<Tabs>
 								<div label="English">
@@ -273,16 +222,6 @@ class BackendAPI extends Component {
 								<div label="Hindi">
 									<div className="tab-content-1">
 										Hindi Summarized Text Will be Shown Here...
-									</div>
-								</div>
-								<div label="Gujarati">
-									<div className="tab-content-1">
-										Gujarati Summarized Text Will be Shown Here...
-									</div>
-								</div>
-								<div label="Braille">
-									<div className="tab-content-1">
-										{braille.toBraille("Braille Summarized Text Will be Shown Here...")}
 									</div>
 								</div>
 							</Tabs>
@@ -321,16 +260,6 @@ class BackendAPI extends Component {
 						<div label="Hindi">
 							<div className="tab-content-1">
 								Hindi Summarized Text Will be Shown Here...
-							</div>
-						</div>
-						<div label="Gujarati">
-							<div className="tab-content-1">
-								Gujarati Summarized Text Will be Shown Here...
-							</div>
-						</div>
-						<div label="Braille">
-							<div className="tab-content-1">
-								{braille.toBraille("Braille Summarized Text Will be Shown Here...")}
 							</div>
 						</div>
 					</Tabs>
