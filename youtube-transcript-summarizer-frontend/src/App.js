@@ -7,7 +7,6 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>YouTube Transcript Summarizer</h1>
-        <pre><div className="line"></div></pre>
         <BackendAPI />
       </header>
     </div>
